@@ -1,9 +1,14 @@
+@import url(../vendor/normalize.css);
+
+@import url(../vendor/fonts.css);
+
 .page {
     background-color: black;
     color: white;
 }
 
 .page__section {
+    box-sizing: border-box;
     max-width: 880px;
     width: 100%;
     margin: 0 auto;
@@ -13,11 +18,10 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 100%;
+    margin: auto;
 }
 
-.marin {
-    margin: 0 auto;
-}
 
 .header {
     border-bottom: .1px solid gray;
@@ -30,9 +34,6 @@
 .profile {
     margin: 37px auto 51px;
     display: flex;
-
-    max-width: 880px;
-    
 }
 
 .profile__image {
@@ -50,12 +51,14 @@
   margin: 0;
 }
 
-.profile__title {
+.profile__name {
+    font-family: "Inter";
     font-size: 42px;
     line-height: 48px;
     font-weight: 500;
     grid-area: title;
     margin: 0;
+    align-self: center;
 }
 
 .profile__edit-button {
@@ -63,17 +66,20 @@
     height: 24px;
     width: 24px;
     align-self: center;
-    margin: 0 18px;
+    margin: auto 18px;
     grid-area: button;
     border: 1px solid white;
     transition: opacity .7s ease-out;
 }
 
 .profile__description {
+    font-family: "Inter";
+    line-height: 22px;
     font-size: 18px;
     font-weight: 400;
     grid-area: description;
     margin: 0;
+    
 }
 
 .profile__add-button {
@@ -90,9 +96,6 @@
     opacity: .6;
 }
 
-.cards {
-
-}
 .card {
     background-color: white;
     color: black;
@@ -113,6 +116,13 @@
     padding: 0;
 }
 
+.cards {
+    font-family: "Inter";
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+}
+
 .card__image {
     width: 282px;
     height: 282px;
@@ -128,9 +138,6 @@
 }
 
 .card__description {
-    font-weight: 900;
-    font-size: 24px;
-    line-height: 29px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -156,22 +163,59 @@
     margin: 67px 0 60px;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 879px) {
+
+    .header {
+        width: calc(100% - 40px);
+    }
+
     .profile {
-        /* background-color: darkseagreen; */
+        width: calc(100% - 40px);
+        margin: 0 auto;
+    }
+
+    
+    .footer {
+        
+        max-width: 582px;
+        margin: 67px auto 60px;
+    }
+
+    .footer__copyright {
+        margin: 0 auto 0 0;
+    }
+}
+
+@media screen and (max-width: 580px) {
+
+    .page__section {
+        /* background-color: fuchsia; */
+        min-width: 282px;
+    }
+
+    .header {
+        margin: 0 auto;
+    }
+
+    .profile {
         flex-direction: column;
         justify-content: center;
-        min-width: 282px;
      }
 
     .profile__info {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        width: 100%;
+        max-width: 282px;
+        margin: 0 auto;
+    }
+
+    .profile__name {
+        font-size: 22px;
     }
 
     .profile__description {
+        font-size: 14px;
         width: 100%;
         text-align: center;
         margin-bottom: 36px;
@@ -179,7 +223,7 @@
 
     .profile__add-button {
         margin: 0 0 36px;
-        width:100%;
+        width: 282px;
     }
 
     .profile__image {
@@ -189,6 +233,14 @@
     profile__title {
         margin-bottom: 14px;
     }
+    .profile__edit-button {
+        height: 18px;
+        width: 18px;
     }
-
-  
+    .footer {
+        max-width: 282px;
+        margin: 48px auto 36px;
+        display: flex;
+        justify-content: flex start;
+    }
+}
