@@ -1,5 +1,5 @@
 .profile {
-    margin: 37px auto 51px;
+    margin: 37px auto 47px;
     display: flex;
 }
 
@@ -85,6 +85,10 @@
 
     .profile__name {
         font-size: 22px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 0 10px 0 20px;
     }
 
     .profile__description {
@@ -92,10 +96,13 @@
         width: 100%;
         text-align: center;
         margin-bottom: 36px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
     .profile__add-button {
-        margin: 0 0 36px;
+        margin: 0;
         width: 282px;
     }
 
@@ -109,5 +116,6 @@
     .profile__edit-button {
         height: 18px;
         width: 18px;
+        margin: auto 0;
     }
 }
