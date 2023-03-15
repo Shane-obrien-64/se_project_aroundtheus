@@ -1,6 +1,7 @@
 .profile {
     margin: 37px auto 47px;
     display: flex;
+    font-family: "Inter", Times New Roman, serif;
 }
 
 .profile__image {
@@ -19,7 +20,6 @@
 }
 
 .profile__name {
-    font-family: "Inter";
     font-size: 42px;
     line-height: 48px;
     font-weight: 500;
@@ -29,7 +29,7 @@
 }
 
 .profile__edit-button {
-    background: transparent url(../images/edit-icon.png) center no-repeat;
+    background: transparent url(../images/edit-icon.svg) center no-repeat;
     height: 24px;
     width: 24px;
     align-self: center;
@@ -40,7 +40,6 @@
 }
 
 .profile__description {
-    font-family: "Inter";
     line-height: 22px;
     font-size: 18px;
     font-weight: 400;
@@ -55,8 +54,9 @@
     width: 150px;
     height: 50px;
     align-self: center;
-    border: 1px solid white;
+    border: 2px solid white;
     transition: opacity .7s ease-out;
+    border-radius: 2px;
 }
 
 .profile__button:hover {
