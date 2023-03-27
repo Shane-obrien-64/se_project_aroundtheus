@@ -1,0 +1,91 @@
+.modal {
+    font-family: "Inter", Times New Roman, serif;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba( 0, 0, 0, .5);
+    display: flex;
+    z-index: 99;
+}
+
+
+
+.modal__container {
+    border-radius: 10px;
+    position: relative;
+    margin: auto;
+    padding: 36px;
+    background-color: #fff;
+    color: #000;
+    width: 358px;
+}
+
+.modal__close {
+    cursor: pointer;
+    background-image: url("../images/close-icon.svg");
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-style: none;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: -45px;
+    right: -45px;
+}
+
+.modal__close:hover {
+    opacity: .6;
+}
+
+.modal__heading {
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    margin: 0 0 30px;
+
+}
+
+.modal__input {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000;
+    border-style: none;
+    border-bottom: 1px solid rgba( 0, 0, 0, .2);
+    margin: 16px 0;
+    width: 100%;
+    height: 40px;
+}
+
+.modal__save {
+    cursor: pointer;
+    background-color: #000;
+    color: #fff;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    margin: 32px 0 0;
+    width: 100%;
+    height: 50px;
+}
+
+.modal__save:hover {
+    opacity: .8;
+}
+
+@media screen and (max-width: 580px) {
+    .modal__close {
+        height: 26px;
+        width: 26px;
+        position: absolute;
+        top: -40px;
+        right: 0;
+    }
+    .modal__container {
+        padding: 25px 22px;
+        width: 238px;
+    }
+}
