@@ -35,67 +35,6 @@
 
             <section class="cards page__section">
                 <ul class="cards__list">
-                    <li class="card">
-                        <img
-                        class="card__image" 
-                        src="./images/yosemite.jpg" 
-                        alt="yosemite valley">
-                        <div class="card__content">
-                            <h2 class="card__description">Yosemite Valley</h2>
-                            <button class="card__like-button" type="button"></button>
-                        </div>
-                        
-                    </li>
-                    <li class="card">
-                        <img
-                        class="card__image" 
-                        src="./images/lake-louise.jpg" 
-                        alt="lake lousie">
-                        <div class="card__content">    
-                            <h2 class="card__description">Lake Lousie</h2>
-                            <button class="card__like-button" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="card">
-                        <img
-                        class="card__image" 
-                        src="./images/bald-mountains.jpg" 
-                        alt="bald mountains">
-                        <div class="card__content">
-                            <h2 class="card__description">Bald Mountains</h2>
-                            <button class="card__like-button" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="card">
-                        <img
-                        class="card__image" 
-                        src="./images/latemar.jpg" 
-                        alt="Latemar">
-                        <div class="card__content">    
-                            <h2 class="card__description">Latemar</h2>
-                            <button class="card__like-button" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="card">
-                        <img
-                        class="card__image" 
-                        src="./images/vanoise.jpg" 
-                        alt="Vanoise National Park">
-                        <div class="card__content">    
-                            <h2 class="card__description">Vanoise National Park</h2>
-                            <button class="card__like-button" type="button"></button>
-                        </div>
-                    </li>
-                    <li class="card">
-                        <img
-                        class="card__image" 
-                        src="./images/lago.jpg" 
-                        alt="Lago di Braies">
-                        <div class="card__content">    
-                            <h2 class="card__description">Lago di Braies</h2>
-                            <button class="card__like-button" type="button"></button>
-                        </div>
-                    </li>
                 </ul>
             </section>
 
@@ -111,13 +50,39 @@
             <button class="modal__close" id="modal-close-btn"></button>
             <p class="modal__heading">Edit profile</p>
             <form class="modal__form">
-                <input class="modal__input" type="text" placeholder="Name" name="Name" />
-                <input class="modal__input" type="text" placeholder="Description" name="Description" />
-                <button class="modal__save" type="button">Save</button>
+                <input 
+                    class="modal__input" 
+                    id="profile-name-input"
+                    type="text" 
+                    placeholder="Name" 
+                    name="Name" 
+                />
+                <input 
+                    class="modal__input" 
+                    id="profile-description-input"
+                    type="text" 
+                    placeholder="Description" 
+                    name="Description" 
+                />
+                <button class="modal__save" type="submit">Save</button>
             </form>
     
         </div>
     </div>
+
+    <template id="card-template">
+        <li class="card">
+            <img
+            class="card__image" 
+            src="" 
+            alt="">
+            <div class="card__content">
+                <h2 class="card__description"></h2>
+                <button class="card__like-button" type="button"></button>
+            </div>
+            
+        </li>
+    </template>
 
     <script src="./scripts/index.js"></script>
 </body>
