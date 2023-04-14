@@ -56,8 +56,6 @@ function getCardElement(cardData) {
     deleteBtn.addEventListener("click", () => {
         cardElement.remove();
     })
-// add event listner for button
-    // cardElement.remove();
 // add event listner for preview image modal
 
     likeBtn.addEventListener("click", () => {
