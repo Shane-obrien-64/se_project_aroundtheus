@@ -27,21 +27,19 @@ const initialCards = [
 
 // buttons
 const profileEditBtn = document.querySelector("#profile-edit-btn");
+const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileAddBtn = document.querySelector("#profile-add-button");
+const profileAddModal = document.querySelector("#profile-add-modal");
 const editModalCloseBtn = profileEditModal.querySelector("#modal-close-btn");
 const addModalCloseBtn = profileAddModal.querySelector("#modal-close-btn");
+const previewImageModal = document.querySelector("#preview-image-modal");
 const previewModalCloseBtn = previewImageModal.querySelector("#modal-close-btn");
 
-// modals/forms
-const profileEditModal = document.querySelector("#profile-edit-modal");
-const profileAddModal = document.querySelector("#profile-add-modal");
-const previewImageModal = document.querySelector("#preview-image-modal");
 const profileEditForm = profileEditModal.querySelector(".modal__form");
 const profileAddForm = profileAddModal.querySelector(".modal__form");
-
-// elements
 const cardListEl = document.querySelector(".cards__list");
 const cardTemplate = document.querySelector("#card-template").content.firstElementChild;
+
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 const profileNameInput = document.querySelector("#profile-name-input");
