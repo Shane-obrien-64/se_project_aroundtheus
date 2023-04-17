@@ -29,10 +29,10 @@ const profileEditBtn = document.querySelector("#profile-edit-btn");
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileAddBtn = document.querySelector("#profile-add-button");
 const profileAddModal = document.querySelector("#profile-add-modal");
-const editModalCloseBtn = profileEditModal.querySelector("#modal-close-btn");
-const addModalCloseBtn = profileAddModal.querySelector("#modal-close-btn");
+const editModalCloseBtn = profileEditModal.querySelector("#edit-modal-close-btn");
+const addModalCloseBtn = profileAddModal.querySelector("#add-modal-close-btn");
 const previewImageModal = document.querySelector("#preview-image-modal");
-const previewModalCloseBtn = previewImageModal.querySelector("#modal-close-btn");
+const previewModalCloseBtn = previewImageModal.querySelector("#image-modal-close-btn");
 
 const profileEditForm = profileEditModal.querySelector(".modal__form");
 const profileAddForm = profileAddModal.querySelector(".modal__form");
