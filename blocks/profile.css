@@ -40,6 +40,7 @@
     grid-area: button;
     border: 1px solid white;
     transition: opacity .7s ease-out;
+    cursor: pointer;
 }
 
 .profile__description {
@@ -63,6 +64,7 @@
     border: 2px solid white;
     transition: opacity .7s ease-out;
     border-radius: 2px;
+    cursor: pointer;
 }
 
 .profile__button:hover {

@@ -6,14 +6,16 @@
     bottom: 0;
     left: 0;
     background-color: rgba( 0, 0, 0, .5);
-    display: none;
-    /* visibility: hidden; */
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .5s linear;
     z-index: 99;
 }
 
 .modal_opened {
-    /* visibility: visible; */
-    display: flex;
+    visibility: visible;
+    opacity: 1;
 }
 
 
@@ -29,10 +31,8 @@
 }
 
 .modal__image-wrapper {
-    border-radius: 10px;
     position: relative;
     margin: auto;
-    /* background-color: green; */
 }
 
 .modal__image {
@@ -43,6 +43,7 @@
 .modal__image-description {
     font-size: 12px;
     line-height: 14px;
+    font-weight: 400;
 }
 
 .modal__close {

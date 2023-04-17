@@ -15,12 +15,14 @@
     position: absolute;
     top: 18px;
     right: 18px;
+    cursor: pointer;
 }
 
 .card__image {
     width: 282px;
     height: 282px;
     border-radius: 8px 8px 0 0;
+    cursor: pointer;
 }
 
 .card__content {
@@ -46,6 +48,7 @@
     height: 18px;
     border-style: none;
     transition: opacity .7s ease-out;
+    cursor: pointer;
 }
 
 .card__like-button_active {
