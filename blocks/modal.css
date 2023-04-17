@@ -7,10 +7,12 @@
     left: 0;
     background-color: rgba( 0, 0, 0, .5);
     display: none;
+    /* visibility: hidden; */
     z-index: 99;
 }
 
 .modal_opened {
+    /* visibility: visible; */
     display: flex;
 }
 
@@ -24,6 +26,23 @@
     background-color: #fff;
     color: #000;
     width: 358px;
+}
+
+.modal__image-wrapper {
+    border-radius: 10px;
+    position: relative;
+    margin: auto;
+    /* background-color: green; */
+}
+
+.modal__image {
+    max-width: 75vw;
+    max-height: 75vh;
+}
+    
+.modal__image-description {
+    font-size: 12px;
+    line-height: 14px;
 }
 
 .modal__close {
