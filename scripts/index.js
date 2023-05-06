@@ -53,13 +53,29 @@ const profileDescriptionInput = document.querySelector(
 const cardTitleInput = profileAddForm.querySelector("#add-title-input");
 const cardUrlInput = profileAddForm.querySelector("#add-url-input");
 
-// functions
 function closePopup(modal) {
   modal.classList.remove("modal_opened");
+  document.removeEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      closePopup(modal);
+    }
+  });
 }
 
 function openPopup(modal) {
   modal.classList.add("modal_opened");
+
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) {
+      closePopup(modal);
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      closePopup(modal);
+    }
+  });
 }
 
 function getCardElement(cardData) {
