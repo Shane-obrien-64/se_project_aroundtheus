@@ -58,21 +58,32 @@
           type="button"
         ></button>
         <h2 class="modal__heading">Edit profile</h2>
-        <form class="modal__form">
+        <form class="modal__form form">
           <input
             class="modal__input"
             id="profile-name-input"
             type="text"
             placeholder="Name"
             name="Name"
+            maxlength="40"
+            minlength="2"
+            required
           />
+          <span class="modal__error" id="profile-name-input-error"></span>
           <input
             class="modal__input"
             id="profile-description-input"
             type="text"
             placeholder="Description"
             name="Description"
+            maxlength="200"
+            minlength="2"
+            required
           />
+          <span
+            class="modal__error"
+            id="profile-description-input-error"
+          ></span>
           <button class="modal__save" type="submit">Save</button>
         </form>
       </div>
@@ -86,14 +97,18 @@
           type="button"
         ></button>
         <h2 class="modal__heading">New place</h2>
-        <form class="modal__form">
+        <form class="modal__form form">
           <input
             class="modal__input"
             id="add-title-input"
             type="text"
             placeholder="Title"
+            maxlength="30"
+            minlength="1"
             name="Title"
+            required
           />
+          <span class="modal__error" id="add-title-input-error"></span>
           <input
             class="modal__input"
             id="add-url-input"
@@ -102,6 +117,7 @@
             name="Image URL"
             required
           />
+          <span class="modal__error" id="add-url-input-error"></span>
           <button class="modal__save" type="submit">Save</button>
         </form>
       </div>
@@ -127,5 +143,6 @@
     </template>
 
     <script src="./scripts/index.js" defer></script>
+    <script src="./scripts/validation.js" defer></script>
   </body>
 </html>
