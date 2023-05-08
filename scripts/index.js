@@ -37,6 +37,7 @@ const previewImageModal = document.querySelector("#preview-image-modal");
 const previewModalCloseBtn = previewImageModal.querySelector(
   "#image-modal-close-btn"
 );
+const addCardSubmitBtn = profileAddModal.querySelector("#add-card-form-btn");
 
 const profileEditForm = profileEditModal.querySelector(".modal__form");
 const profileAddForm = profileAddModal.querySelector(".modal__form");
@@ -53,29 +54,29 @@ const profileDescriptionInput = document.querySelector(
 const cardTitleInput = profileAddForm.querySelector("#add-title-input");
 const cardUrlInput = profileAddForm.querySelector("#add-url-input");
 
+function closeModalOnRemoteClick(e) {
+  if (e.target === e.currentTarget) {
+    closePopup(e.target);
+  }
+}
+
+function handleEscape(event) {
+  const openedModal = document.querySelector(".modal_opened");
+  if (event.key === "Escape") {
+    closePopup(openedModal);
+  }
+}
+
 function closePopup(modal) {
   modal.classList.remove("modal_opened");
-  document.removeEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      closePopup(modal);
-    }
-  });
+  modal.removeEventListener("mousedown", closeModalOnRemoteClick);
+  document.removeEventListener("keydown", handleEscape);
 }
 
 function openPopup(modal) {
   modal.classList.add("modal_opened");
-
-  modal.addEventListener("click", function (e) {
-    if (e.target === modal) {
-      closePopup(modal);
-    }
-  });
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      closePopup(modal);
-    }
-  });
+  modal.addEventListener("mousedown", closeModalOnRemoteClick);
+  document.addEventListener("keydown", handleEscape);
 }
 
 function getCardElement(cardData) {
@@ -131,6 +132,7 @@ function handleCardFormSubmit(e) {
   renderCard({ name, link }, cardListEl);
   closePopup(profileAddModal);
   profileAddForm.reset();
+  toggleButtonState([cardTitleInput, cardUrlInput], addCardSubmitBtn, config);
 }
 
 // event listeners
