@@ -65,4 +65,9 @@ export default class Card {
     console.log("boom");
     return this._cardElement;
   }
+  renderCard(card, list) {
+    const cardElement = card.getView();
+    list.prepend(cardElement);
+    console.log("bam");
+  }
 }
