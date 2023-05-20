@@ -1,3 +1,11 @@
+import Card from "../components/Card.js";
+import {
+  closePopup,
+  openPopup,
+  handleProfileFormSubmit,
+  handleCardFormSubmit,
+} from "../utils/utils.js";
+
 const initialCards = [
   {
     name: "Yosemite Valley",
@@ -54,86 +62,89 @@ const profileDescriptionInput = document.querySelector(
 const cardTitleInput = profileAddForm.querySelector("#add-title-input");
 const cardUrlInput = profileAddForm.querySelector("#add-url-input");
 
-function closeModalOnRemoteClick(e) {
-  if (e.target === e.currentTarget) {
-    closePopup(e.target);
-  }
-}
+// function closeModalOnRemoteClick(e) {
+//   if (e.target === e.currentTarget) {
+//     closePopup(e.target);
+//   }
+// }
 
-function handleEscape(event) {
-  const openedModal = document.querySelector(".modal_opened");
-  if (event.key === "Escape") {
-    closePopup(openedModal);
-  }
-}
+// function handleEscape(event) {
+//   const openedModal = document.querySelector(".modal_opened");
+//   if (event.key === "Escape") {
+//     closePopup(openedModal);
+//   }
+// }
 
-function closePopup(modal) {
-  modal.classList.remove("modal_opened");
-  modal.removeEventListener("mousedown", closeModalOnRemoteClick);
-  document.removeEventListener("keydown", handleEscape);
-}
+// function closePopup(modal) {
+//   modal.classList.remove("modal_opened");
+//   modal.removeEventListener("mousedown", closeModalOnRemoteClick);
+//   document.removeEventListener("keydown", handleEscape);
+// }
 
-function openPopup(modal) {
-  modal.classList.add("modal_opened");
-  modal.addEventListener("mousedown", closeModalOnRemoteClick);
-  document.addEventListener("keydown", handleEscape);
-}
+// function openPopup(modal) {
+//   modal.classList.add("modal_opened");
+//   modal.addEventListener("mousedown", closeModalOnRemoteClick);
+//   document.addEventListener("keydown", handleEscape);
+// }
 
-function getCardElement(cardData) {
-  const cardElement = cardTemplate.cloneNode(true);
-  const cardImageEl = cardElement.querySelector(".card__image");
-  const cardTitleEl = cardElement.querySelector(".card__description");
-  const likeBtn = cardElement.querySelector(".card__like-button");
-  const deleteBtn = cardElement.querySelector(".card__delete-button");
-  const previewImage = previewImageModal.querySelector(".modal__image");
-  const imageDescription = previewImageModal.querySelector(
-    ".modal__image-description"
-  );
+// Card.js
+// function getCardElement(cardData) {
+//   const cardElement = cardTemplate.cloneNode(true);
+//   const cardImageEl = cardElement.querySelector(".card__image");
+//   const cardTitleEl = cardElement.querySelector(".card__description");
+//   const likeBtn = cardElement.querySelector(".card__like-button");
+//   const deleteBtn = cardElement.querySelector(".card__delete-button");
+//   const previewImage = previewImageModal.querySelector(".modal__image");
+//   const imageDescription = previewImageModal.querySelector(
+//     ".modal__image-description"
+//   );
 
-  deleteBtn.addEventListener("click", () => {
-    cardElement.remove();
-  });
+//   deleteBtn.addEventListener("click", () => {
+//     cardElement.remove();
+//   });
 
-  cardImageEl.addEventListener("click", () => {
-    previewImage.src = cardData.link;
-    previewImage.alt = cardData.name;
-    imageDescription.textContent = cardData.name;
-    openPopup(previewImageModal);
-  });
+// move to card.js v
+// cardImageEl.addEventListener("click", () => {
+//   previewImage.src = cardData.link;
+//   previewImage.alt = cardData.name;
+//   imageDescription.textContent = cardData.name;
+//   openPopup(previewImageModal);
+// });
 
-  likeBtn.addEventListener("click", () => {
-    likeBtn.classList.toggle("card__like-button_active");
-  });
+//   likeBtn.addEventListener("click", () => {
+//     likeBtn.classList.toggle("card__like-button_active");
+//   });
 
-  cardImageEl.src = cardData.link;
-  cardImageEl.alt = cardData.name;
-  cardTitleEl.textContent = cardData.name;
+//   cardImageEl.src = cardData.link;
+//   cardImageEl.alt = cardData.name;
+//   cardTitleEl.textContent = cardData.name;
 
-  return cardElement;
-}
+//   return cardElement;
+// }
 
-function renderCard(cardData, list) {
-  const cardElement = getCardElement(cardData);
-
+function renderCard(card, list) {
+  const cardElement = card.getView();
   list.prepend(cardElement);
 }
 
-function handleProfileFormSubmit(e) {
-  e.preventDefault();
-  profileName.textContent = profileNameInput.value;
-  profileDescription.textContent = profileDescriptionInput.value;
-  closePopup(profileEditModal);
-}
+// function handleProfileFormSubmit(e) {
+//   e.preventDefault();
+//   profileName.textContent = profileNameInput.value;
+//   profileDescription.textContent = profileDescriptionInput.value;
+//   closePopup(profileEditModal);
+// }
 
-function handleCardFormSubmit(e) {
-  e.preventDefault();
-  const name = cardTitleInput.value;
-  const link = cardUrlInput.value;
-  renderCard({ name, link }, cardListEl);
-  closePopup(profileAddModal);
-  profileAddForm.reset();
-  toggleButtonState([cardTitleInput, cardUrlInput], addCardSubmitBtn, config);
-}
+// function handleCardFormSubmit(e) {
+//   e.preventDefault();
+//   const name = cardTitleInput.value;
+//   const link = cardUrlInput.value;
+//   const card = new Card({ name, link }, "#card-template");
+
+//   renderCard(card, cardListEl);
+//   closePopup(profileAddModal);
+//   profileAddForm.reset();
+//   toggleButtonState([cardTitleInput, cardUrlInput], addCardSubmitBtn, config);
+// }
 
 // event listeners
 profileEditBtn.addEventListener("click", () => {
@@ -151,5 +162,14 @@ previewModalCloseBtn.addEventListener("click", () =>
 profileEditForm.addEventListener("submit", handleProfileFormSubmit);
 profileAddForm.addEventListener("submit", handleCardFormSubmit);
 
+// card.getView();
+// console.log(card._cardElement);
+// renderCard(card, cardListEl);
+
 // loops
-initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
+// initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
+
+initialCards.forEach((cardData) => {
+  const card = new Card(cardData, "#card-template");
+  renderCard(card, cardListEl);
+});
