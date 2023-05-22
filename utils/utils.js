@@ -1,4 +1,6 @@
 import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import { config } from "../pages/index.js";
 
 // profile edit
 const profileEditBtn = document.querySelector("#profile-edit-btn");
@@ -72,8 +74,12 @@ export function handleCardFormSubmit(e) {
   card.renderCard(card, cardListEl);
   closePopup(profileAddModal);
   profileAddForm.reset();
-  // toggleButtonState needs to be imported?
-  toggleButtonState([cardTitleInput, cardUrlInput], addCardSubmitBtn, config);
+  const validator = new FormValidator(config, profileAddForm);
+  validator._toggleButtonState(
+    [cardTitleInput, cardUrlInput],
+    addCardSubmitBtn,
+    config
+  );
 }
 
 export function addEventHandlers() {

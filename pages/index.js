@@ -35,9 +35,22 @@ const initialCards = [
   },
 ];
 
-const test = new FormValidator();
+export const config = {
+  inputSelector: ".modal__input",
+  submitButtonSelector: ".modal__save",
+  inactiveButtonClass: "modal__save_disabled",
+  inputErrorClass: "modal__input_type_error",
+  errorClass: "modal__error_visible",
+};
 
-test.test();
+const editProfileForm = document.querySelector("#profile-edit-modal");
+const addCardForm = document.querySelector("#profile-add-modal");
+
+const editFormValidator = new FormValidator(config, editProfileForm);
+const addFormValidator = new FormValidator(config, addCardForm);
+
+editFormValidator.enableValidation(config, editFormValidator);
+addFormValidator.enableValidation(config, addFormValidator);
 
 const cardListEl = document.querySelector(".cards__list");
 

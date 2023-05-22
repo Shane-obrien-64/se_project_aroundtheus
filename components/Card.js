@@ -49,25 +49,20 @@ export default class Card {
   }
 
   getView() {
-    // get the card view
     this._cardElement = document
       .querySelector(this._cardSelector)
       .content.querySelector(".card")
       .cloneNode(true);
     this._cardImage = this._cardElement.querySelector(".card__image");
     this._cardTitle = this._cardElement.querySelector(".card__description");
-    // set event listeners
     this._setEventListeners();
-    // return the card
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._cardTitle.textContent = this._name;
-    console.log("boom");
     return this._cardElement;
   }
   renderCard(card, list) {
     const cardElement = card.getView();
     list.prepend(cardElement);
-    console.log("bam");
   }
 }
