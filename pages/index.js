@@ -61,14 +61,19 @@ const initialCards = [
   },
 ];
 
-function renderCard(card, list) {
-  const cardElement = card.getView();
-  list.prepend(cardElement);
+function createCard(cardData) {
+  const newCard = new Card(cardData, "#card-template");
+  return newCard.getView();
+}
+
+function renderCard(cardData) {
+  const card = createCard(cardData);
+  cardListEl.append(card);
 }
 
 initialCards.forEach((cardData) => {
-  const card = new Card(cardData, "#card-template");
-  renderCard(card, cardListEl);
+  const card = createCard(cardData);
+  renderCard(cardData, cardListEl);
 });
 
 // form validation
@@ -91,19 +96,17 @@ function handleProfileFormSubmit(e) {
   profileName.textContent = profileNameInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
   closePopup(profileEditModal);
-  editFormValidator._toggleButtonState();
+  editFormValidator.toggleButtonState();
 }
 
 function handleCardFormSubmit(e) {
   e.preventDefault();
   const name = cardTitleInput.value;
   const link = cardUrlInput.value;
-  const card = new Card({ name, link }, "#card-template");
-
-  renderCard(card, cardListEl);
+  renderCard({ name, link });
   closePopup(profileAddModal);
   profileAddForm.reset();
-  addFormValidator._toggleButtonState();
+  addFormValidator.toggleButtonState();
 }
 
 // event handlers
