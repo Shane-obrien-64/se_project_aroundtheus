@@ -66,14 +66,9 @@ function createCard(cardData) {
   return newCard.getView();
 }
 
-function renderCard(cardData) {
-  const card = createCard(cardData);
-  cardListEl.append(card);
-}
-
 initialCards.forEach((cardData) => {
   const card = createCard(cardData);
-  renderCard(cardData, cardListEl);
+  cardListEl.append(card);
 });
 
 // form validation
@@ -103,7 +98,8 @@ function handleCardFormSubmit(e) {
   e.preventDefault();
   const name = cardTitleInput.value;
   const link = cardUrlInput.value;
-  renderCard({ name, link });
+  const card = createCard({ name, link });
+  cardListEl.prepend(card);
   closePopup(profileAddModal);
   profileAddForm.reset();
   addFormValidator.toggleButtonState();
