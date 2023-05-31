@@ -1,10 +1,11 @@
 import { openPopup } from "../utils/utils.js";
 
 export default class Card {
-  constructor({ name, link }, cardSelector) {
+  constructor({ name, link }, cardSelector, handleCardClick) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   _setEventListeners() {
@@ -29,7 +30,8 @@ export default class Card {
     const imageDescription = previewImageModal.querySelector(
       ".modal__image-description"
     );
-
+    // PopupWithImage.open();
+    // pass values in?
     previewImage.src = this._link;
     previewImage.alt = this._name;
     imageDescription.textContent = this._name;
