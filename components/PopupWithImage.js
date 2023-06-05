@@ -8,12 +8,10 @@ export default class PopupWithImage extends Popup {
     this._popupTitle = this._popupEl.querySelector(".modal__image-description");
   }
 
-  open() {
-    super.open;
-    // figure out how to find the card values
-    // pass values in a peremeters?
-    // this._popupImage.src = ;
-    // this._popupImage.alt = ;
-    // this._popupTitle.textContent = ;
+  open(title, link) {
+    super.open();
+    this._popupImage.src = link;
+    this._popupImage.alt = title;
+    this._popupTitle.textContent = title;
   }
 }

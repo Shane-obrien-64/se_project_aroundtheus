@@ -5,33 +5,33 @@ export default class Popup {
   }
 
   open() {
-    this._popupEl.classList.add("modal_opened");
-    this.setEventListeners();
+    this._popupEl.classList.add("modal__opened");
   }
 
-  // figure out how to go about removing event listeners,
-  // or if its even needed
-  // classlist.toggle?
-  close() {
-    this._popupEl.classList.remove("modal_opened");
-    this._popupEl.removeEventListener("mousedown", replaceMe);
-    document.removeEventListener("keydown", this._handleEscClose);
-  }
+  close = () => {
+    this._popupEl.classList.remove("modal__opened");
+  };
 
-  _handleEscClose(e) {
+  _handleEscClose = (e) => {
     if (e.key === "Escape") {
       this.close();
     }
-  }
-  closeOnOverlay(e) {
+  };
+
+  _closeOnOverlay = (e) => {
     if (e.target === e.currentTarget) {
       this.close();
     }
-  }
+  };
 
   setEventListeners() {
     this._closeIcon.addEventListener("click", this.close);
-    this._popupEl.addEventListener("mousedown", this.closeOnOverlay);
+    this._popupEl.addEventListener("mousedown", this._closeOnOverlay);
     document.addEventListener("keydown", this._handleEscClose);
   }
+  // removeEventListeners() {
+  //   // this._closeIcon.removeEventListener("click", this.close);
+  //   this._popupEl.removeEventListener("mousedown", this._closeOnOverlay);
+  //   document.removeEventListener("keydown", this._handleEscClose);
+  // }
 }
