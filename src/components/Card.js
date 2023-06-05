@@ -1,5 +1,3 @@
-// import { openPopup } from "../utils/utils.js";
-
 export default class Card {
   constructor({ name, link }, cardSelector, handleCardClick) {
     this._name = name;
@@ -25,20 +23,6 @@ export default class Card {
   _handleDeleteCard() {
     this._cardElement.remove();
   }
-
-  // _handlePreviewImage() {
-  //   const previewImageModal = document.querySelector("#preview-image-modal");
-  //   const previewImage = previewImageModal.querySelector(".modal__image");
-  //   const imageDescription = previewImageModal.querySelector(
-  //     ".modal__image-description"
-  //   );
-  //   // PopupWithImage.open();
-  //   // pass values in?
-  //   previewImage.src = this._link;
-  //   previewImage.alt = this._name;
-  //   imageDescription.textContent = this._name;
-  //   openPopup(previewImageModal);
-  // }
 
   _getElement() {
     return document

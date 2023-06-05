@@ -5,6 +5,7 @@ import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
+import "./index.css";
 
 // profile edit
 const profileEditBtn = document.querySelector("#profile-edit-btn");
@@ -17,8 +18,6 @@ const profileDescriptionInput = document.querySelector(
 
 // profile add
 const profileAddBtn = document.querySelector("#profile-add-button");
-const cardTitleInput = document.querySelector("#add-title-input");
-const cardUrlInput = document.querySelector("#add-url-input");
 
 // preview image
 
@@ -92,15 +91,17 @@ function createCard(cardData) {
   return newCard.getView();
 }
 
-// const cardSection = new Section({ initialCards, createCard }, "#card-list");
-// // const cardListEl = cardSection._container;
-// cardSection.addItem(cardSection.rendererItems());
-// cardSection.test();
-
-initialCards.forEach((cardData) => {
-  const card = createCard(cardData);
-  cardListEl.append(card);
-});
+const cardSection = new Section(
+  {
+    items: initialCards,
+    renderer: (item) => {
+      const card = createCard(item);
+      cardSection.addItem(card);
+    },
+  },
+  "#card-list"
+);
+cardSection.renderItems();
 
 // form validation
 export const config = {
