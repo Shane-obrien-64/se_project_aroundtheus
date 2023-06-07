@@ -20,12 +20,11 @@ const profileDescriptionInput = editForm.querySelector(
   "#profile-description-input"
 );
 
-const userInfo = new UserInfo("#profile-name", "#profile-description");
+const userInfo = new UserInfo("#profile-name", "#profile-des");
 
 // functions
 function handleProfileFormSubmit(data) {
   userInfo.setUserInfo(data);
-  editFormValidator.toggleButtonState();
   profileEditPopup.close();
 }
 
@@ -88,5 +87,9 @@ profileEditBtn.addEventListener("click", () => {
   profileNameInput.value = user.name;
   profileDescriptionInput.value = user.description;
   profileEditPopup.open();
+  editFormValidator.toggleButtonState();
 });
-profileAddBtn.addEventListener("click", () => profileAddPopup.open());
+profileAddBtn.addEventListener("click", () => {
+  profileAddPopup.open();
+  addFormValidator.toggleButtonState();
+});
