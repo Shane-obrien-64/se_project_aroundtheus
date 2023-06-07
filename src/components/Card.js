@@ -4,17 +4,14 @@ export default class Card {
     this._link = link;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+  }
 
-    this._cardElement = this._getElement();
-    this._cardImage = this._cardElement.querySelector(".card__image");
-    this._cardTitle = this._cardElement.querySelector(".card__description");
+  _setEventListeners() {
     this._likeButton = this._cardElement.querySelector(".card__like-button");
     this._deleteButton = this._cardElement.querySelector(
       ".card__delete-button"
     );
-  }
 
-  _setEventListeners() {
     this._likeButton.addEventListener("click", () => this._handleLikeIcon());
     this._deleteButton.addEventListener("click", () =>
       this._handleDeleteCard()
@@ -41,6 +38,10 @@ export default class Card {
   }
 
   getView() {
+    this._cardElement = this._getElement();
+    this._cardImage = this._cardElement.querySelector(".card__image");
+    this._cardTitle = this._cardElement.querySelector(".card__description");
+
     this._setEventListeners();
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
