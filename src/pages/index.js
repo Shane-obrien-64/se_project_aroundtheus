@@ -1,5 +1,4 @@
 import Card from "../components/Card.js";
-// import { closePopup, openPopup } from "../utils/utils.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -7,6 +6,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 import { initialCards, config } from "../utils/constants.js";
 import "./index.css";
+import { api } from "../components/Api.js";
 
 // profile buttons
 const profileAddBtn = document.querySelector("#profile-add-button");
@@ -34,6 +34,14 @@ function handleCardFormSubmit(data) {
   const card = createCard({ name, link });
   cardSection.prependItem(card);
   profileAddPopup.close();
+}
+
+function handleDeleteCard() {
+  // code here
+}
+
+function handleProfileImgFormSubmit() {
+  // code here
 }
 
 function handleCardClick(name, link) {
@@ -68,18 +76,32 @@ const profileAddPopup = new PopupWithForm(
   "#profile-add-modal",
   handleCardFormSubmit
 );
+const deleteCardPopup = new PopupWithForm(
+  "#delete-image-modal",
+  handleDeleteCard
+);
+const profileImagePopup = new PopupWithForm(
+  "#edit-profile-img-modal",
+  handleProfileImgFormSubmit
+);
 
 previewImagePopup.setEventListeners();
 profileEditPopup.setEventListeners();
 profileAddPopup.setEventListeners();
+deleteCardPopup.setEventListeners();
+profileImagePopup.setEventListeners();
 
 // form validation
 
 const editFormValidator = new FormValidator(config, editForm);
 const addFormValidator = new FormValidator(config, addForm);
+// const deleteFormValidator = new FormValidator(config,  form here );
+// const profileImageFormValidator = new FormValidator(config,  form here );
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
+// deleteCardPopup.enableValidation();
+// profileImagePopup.enableValidation();
 
 // event handlers
 profileEditBtn.addEventListener("click", () => {

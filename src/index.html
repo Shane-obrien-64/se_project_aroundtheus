@@ -18,11 +18,13 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
-            src="<%=require('./images/jacques-cousteau.png')%>"
-            alt="avatar"
-            class="profile__image"
-          />
+          <div class="profile__image-overlay">
+            <img
+              src="<%=require('./images/jacques-cousteau.png')%>"
+              alt="avatar"
+              class="profile__image"
+            />
+          </div>
           <div class="profile__info">
             <h1 class="profile__name" id="profile-name">Jacques Cousteau</h1>
             <button
@@ -48,7 +50,7 @@
         <p class="footer__copyright">© 2022 Around The U.S.</p>
       </footer>
     </div>
-    <!-- edit modal -->
+    <!-- edit profile modal -->
     <div class="modal" id="profile-edit-modal">
       <div class="modal__container">
         <button
@@ -87,7 +89,7 @@
         </form>
       </div>
     </div>
-    <!-- add modal -->
+    <!-- add card modal -->
     <div class="modal" id="profile-add-modal">
       <div class="modal__container">
         <button
@@ -131,6 +133,46 @@
         <h2 class="modal__image-description"></h2>
       </div>
     </div>
+    <!-- delete modal -->
+    <div class="modal" id="delete-image-modal">
+      <div class="modal__container">
+        <button
+          class="modal__close"
+          id="delete-modal-close-btn"
+          type="button"
+        ></button>
+        <h2 class="modal__heading">Are you sure?</h2>
+        <form class="modal__form form">
+          <button class="modal__confim-btn" id="confim-delete-btn">Yes</button>
+        </form>
+      </div>
+    </div>
+    <!-- edit profile image modal -->
+    <div class="modal modal__opened" id="edit-profile-img-modal">
+      <div class="modal__container">
+        <button
+          class="modal__close"
+          id="delete-modal-close-btn"
+          type="button"
+        ></button>
+        <h2 class="modal__heading">Change profile picture</h2>
+        <form class="modal__form form">
+          <input
+            class="modal__input"
+            id="add-url-input"
+            type="url"
+            placeholder="Image URL"
+            name="imageUrl"
+            required
+          />
+          <span
+            class="modal__error"
+            id="profile-description-input-error"
+          ></span>
+          <button class="modal__save" type="submit">Save</button>
+        </form>
+      </div>
+    </div>
 
     <template id="card-template">
       <li class="card">
@@ -138,7 +180,10 @@
         <button class="card__delete-button" type="button"></button>
         <div class="card__content">
           <h2 class="card__description"></h2>
-          <button class="card__like-button" type="button"></button>
+          <div class="card__like_container">
+            <button class="card__like-button" type="button"></button>
+            <p class="card__like-counter">1</p>
+          </div>
         </div>
       </li>
     </template>
