@@ -5,8 +5,17 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 import { initialCards, config } from "../utils/constants.js";
+import Api from "../components/Api.js";
 import "./index.css";
-import { api } from "../components/Api.js";
+import { data } from "autoprefixer";
+
+export const api = new Api({
+  baseUrl: "https://around.nomoreparties.co/v1/group-12",
+  headers: {
+    authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
+    "Content-Type": "application/json",
+  },
+});
 
 // profile buttons
 const profileAddBtn = document.querySelector("#profile-add-button");
@@ -22,10 +31,30 @@ const profileDescriptionInput = editForm.querySelector(
 
 const userInfo = new UserInfo("#profile-name", "#profile-des");
 
+api
+  .getUserinfo()
+  .then((data) => {
+    const { name, about } = data;
+    userInfo.setUserInfo(name, about);
+  })
+  .catch((error) => {
+    console.error("Error fetching data:", error);
+  });
+
 // functions
 function handleProfileFormSubmit(data) {
-  userInfo.setUserInfo(data);
-  profileEditPopup.close();
+  api
+    .updateProfile(data)
+    .then(() => {
+      userInfo.setUserInfo(data);
+      profileEditPopup.close();
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+  // userInfo.setUserInfo(data);
+  // profileEditPopup.close();
+  // #3 PATCH profile info with api
 }
 
 function handleCardFormSubmit(data) {
@@ -34,14 +63,21 @@ function handleCardFormSubmit(data) {
   const card = createCard({ name, link });
   cardSection.prependItem(card);
   profileAddPopup.close();
+  // #10 btn text content changes while saving
+}
+
+function handleDeleteCardSubmit() {
+  // delete cards from section and server
+  console.log("form submit");
 }
 
 function handleDeleteCard() {
-  // code here
+  console.log("popup open");
+  deleteCardPopup.open();
 }
 
 function handleProfileImgFormSubmit() {
-  // code here
+  // #9 PATCH profile pic update
 }
 
 function handleCardClick(name, link) {
@@ -49,22 +85,30 @@ function handleCardClick(name, link) {
 }
 
 function createCard(cardData) {
-  const newCard = new Card(cardData, "#card-template", handleCardClick);
+  const newCard = new Card(
+    cardData,
+    "#card-template",
+    handleCardClick,
+    handleDeleteCard
+  );
+  // #4 POST new card to server with api
   return newCard.getView();
 }
 
-// section
-const cardSection = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const card = createCard(item);
-      cardSection.appendItem(card);
+// render initial cards
+api.getInitialCards().then((result) => {
+  const cardSection = new Section(
+    {
+      items: result,
+      renderer: (item) => {
+        const card = createCard(item);
+        cardSection.appendItem(card);
+      },
     },
-  },
-  "#card-list"
-);
-cardSection.renderItems();
+    "#card-list"
+  );
+  cardSection.renderItems();
+});
 
 // popups
 const previewImagePopup = new PopupWithImage("#preview-image-modal");
@@ -78,7 +122,7 @@ const profileAddPopup = new PopupWithForm(
 );
 const deleteCardPopup = new PopupWithForm(
   "#delete-image-modal",
-  handleDeleteCard
+  handleDeleteCardSubmit
 );
 const profileImagePopup = new PopupWithForm(
   "#edit-profile-img-modal",
