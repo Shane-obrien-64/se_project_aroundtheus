@@ -24,6 +24,7 @@
               alt="avatar"
               class="profile__image"
             />
+            <button class="profile__edit-image" id="edit-avatar-btn"></button>
           </div>
           <div class="profile__info">
             <h1 class="profile__name" id="profile-name"></h1>
@@ -75,8 +76,8 @@
             class="modal__input"
             id="profile-description-input"
             type="text"
-            placeholder="Description"
-            name="description"
+            placeholder="About"
+            name="about"
             maxlength="200"
             minlength="2"
             required
@@ -106,7 +107,7 @@
             placeholder="Title"
             maxlength="30"
             minlength="1"
-            name="title"
+            name="name"
             required
           />
           <span class="modal__error" id="add-title-input-error"></span>
@@ -115,7 +116,7 @@
             id="add-url-input"
             type="url"
             placeholder="Image URL"
-            name="imageUrl"
+            name="link"
             required
           />
           <span class="modal__error" id="add-url-input-error"></span>

@@ -1,7 +1,8 @@
 export default class Card {
-  constructor({ name, link }, cardSelector, handleCardClick, handleCardDelete) {
-    this._name = name;
-    this._link = link;
+  constructor(data, cardSelector, handleCardClick, handleCardDelete) {
+    this._name = data.name;
+    this._link = data.link;
+    this._id = data._id;
     // #8 add card like counter
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
@@ -16,7 +17,12 @@ export default class Card {
 
     this._likeButton.addEventListener("click", () => this._handleLikeIcon());
     // #6 only add delete button if its the users card
-    this._deleteButton.addEventListener("click", () => this._handleCardDelete);
+    this._deleteButton.addEventListener("click", () =>
+      this._handleCardDelete(this._id)
+    );
+    // this._deleteButton.addEventListener("click", () =>
+    //   this._handleDeleteCard()
+    // );
     this._cardImage.addEventListener("click", () =>
       this._handleCardClick(this._name, this._link)
     );
@@ -27,10 +33,10 @@ export default class Card {
     // #7 PUT and DELETE request with api
   }
 
-  // _handleDeleteCard() {
-  //   this._cardElement.remove();
-  //   this._cardElement = null;
-  // }
+  _handleDeleteCard() {
+    this._cardElement.remove();
+    this._cardElement = null;
+  }
 
   _getElement() {
     return document

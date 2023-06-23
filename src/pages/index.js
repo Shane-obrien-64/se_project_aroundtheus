@@ -4,7 +4,7 @@ import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
-import { initialCards, config } from "../utils/constants.js";
+import { config } from "../utils/constants.js";
 import Api from "../components/Api.js";
 import "./index.css";
 import { data } from "autoprefixer";
@@ -20,6 +20,7 @@ export const api = new Api({
 // profile buttons
 const profileAddBtn = document.querySelector("#profile-add-button");
 const profileEditBtn = document.querySelector("#profile-edit-btn");
+const profileImgEditBtn = document.querySelector("#edit-avatar-btn");
 // forms
 const editForm = document.querySelector("#profile-edit-modal");
 const addForm = document.querySelector("#profile-add-modal");
@@ -43,41 +44,62 @@ api
 
 // functions
 function handleProfileFormSubmit(data) {
+  const name = data.name;
+  const about = data.about;
+
   api
-    .updateProfile(data)
-    .then(() => {
-      userInfo.setUserInfo(data);
-      profileEditPopup.close();
+    .updateProfile(name, about)
+    .then((res) => {
+      userInfo.setUserInfo(name, about);
+      // console.log(name, about);
+      console.log(res);
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
-  // userInfo.setUserInfo(data);
-  // profileEditPopup.close();
-  // #3 PATCH profile info with api
+  profileEditPopup.close();
 }
 
 function handleCardFormSubmit(data) {
-  const name = data.title;
-  const link = data.imageUrl;
+  api.postCard(data).then((res) => {
+    console.log(res);
+  });
+  const name = data.name;
+  const link = data.link;
   const card = createCard({ name, link });
   cardSection.prependItem(card);
   profileAddPopup.close();
   // #10 btn text content changes while saving
 }
 
-function handleDeleteCardSubmit() {
-  // delete cards from section and server
-  console.log("form submit");
+function handleDeleteCardSubmit(cardId) {
+  console.log(cardId + " submited");
+  deleteCardPopup.close();
+  // this one works!! v
+  // api
+  //   .deleteCard(cardId)
+  //   .then((res) => {
+  //     console.log(res);
+  //     cardSection.remove;
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
 }
 
-function handleDeleteCard() {
-  console.log("popup open");
-  deleteCardPopup.open();
+function handleDeleteIcon(cardId) {
+  deleteCardPopup.open(cardId);
 }
 
-function handleProfileImgFormSubmit() {
-  // #9 PATCH profile pic update
+function handleProfileImgFormSubmit(data) {
+  api
+    .updateProfileImg(data)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
 }
 
 function handleCardClick(name, link) {
@@ -89,15 +111,15 @@ function createCard(cardData) {
     cardData,
     "#card-template",
     handleCardClick,
-    handleDeleteCard
+    handleDeleteIcon
   );
-  // #4 POST new card to server with api
   return newCard.getView();
 }
 
 // render initial cards
+let cardSection;
 api.getInitialCards().then((result) => {
-  const cardSection = new Section(
+  cardSection = new Section(
     {
       items: result,
       renderer: (item) => {
@@ -158,4 +180,8 @@ profileEditBtn.addEventListener("click", () => {
 profileAddBtn.addEventListener("click", () => {
   profileAddPopup.open();
   addFormValidator.toggleButtonState();
+});
+profileImgEditBtn.addEventListener("click", () => {
+  profileImagePopup.open();
+  // profileImagePopup.enableValidation();
 });

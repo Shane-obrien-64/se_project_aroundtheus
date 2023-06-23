@@ -11,7 +11,7 @@ export default class Api {
   }
 
   getInitialCards() {
-    return fetch("https://around.nomoreparties.co/v1/group-12/cards", {
+    return fetch(this.baseUrl + "/cards", {
       headers: {
         authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
       },
@@ -31,21 +31,31 @@ export default class Api {
   }
 
   updateProfile(name, about) {
-    fetch("https://around.nomoreparties.co/v1/group-12/users/me", {
+    return fetch(this.baseUrl + "/users/me", {
       method: "PATCH",
       headers: {
         authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name,
-        about,
+        name: name,
+        about: about,
       }),
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return Promise.reject(`Error: ${res.status}`);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   getUserinfo() {
-    return fetch("https://around.nomoreparties.co/v1/group-12/users/me", {
+    return fetch(this.baseUrl + "/users/me", {
       headers: {
         authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
       },
@@ -64,21 +74,107 @@ export default class Api {
       });
   }
 
-  addLike() {
-    return fetch("https://around.nomoreparties.co/v1/group-12/cards", {
+  updateProfileImg(avatar) {
+    return fetch(this.baseUrl + "/users/me/avatar", {
+      method: "PATCH",
       headers: {
         authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
-        method: "PUT",
+        "Content-Type": "application/json",
       },
-    });
+      body: JSON.stringify({
+        avatar: avatar,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return Promise.reject(`Error: ${res.status}`);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
-  deleteLike() {
-    return fetch("https://around.nomoreparties.co/v1/group-12/cards", {
+  postCard({ name, link }) {
+    return fetch(this.baseUrl + "/cards", {
+      method: "POST",
       headers: {
         authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
-        method: "DELETE",
+        "Content-Type": "application/json",
       },
-    });
+      body: JSON.stringify({
+        name: name,
+        link: link,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return Promise.reject(`Error: ${res.status}`);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  deleteCard(cardId) {
+    return fetch(this.baseUrl + "/cards/" + cardId, {
+      method: "DELETE",
+      headers: {
+        authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  addLike(cardId) {
+    return fetch(this.baseUrl + "/cards/" + cardId, {
+      method: "PUT",
+      headers: {
+        authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  deleteLike(cardId) {
+    return fetch(this.baseUrl + "/cards/" + cardId, {
+      method: "DELETE",
+      headers: {
+        authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 }
