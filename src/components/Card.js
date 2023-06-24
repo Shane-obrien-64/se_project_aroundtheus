@@ -3,6 +3,7 @@ export default class Card {
     this._name = data.name;
     this._link = data.link;
     this._id = data._id;
+    this.likeCount = data.likes;
     // #8 add card like counter
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
@@ -49,11 +50,13 @@ export default class Card {
     this._cardElement = this._getElement();
     this._cardImage = this._cardElement.querySelector(".card__image");
     this._cardTitle = this._cardElement.querySelector(".card__description");
+    this.cardLikeCount = this._cardElement.querySelector(".card__like-counter");
 
     this._setEventListeners();
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._cardTitle.textContent = this._name;
+    this.cardLikeCount.textContent = this.likeCount.length;
     return this._cardElement;
   }
 }

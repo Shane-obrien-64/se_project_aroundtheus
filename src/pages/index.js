@@ -24,19 +24,25 @@ const profileImgEditBtn = document.querySelector("#edit-avatar-btn");
 // forms
 const editForm = document.querySelector("#profile-edit-modal");
 const addForm = document.querySelector("#profile-add-modal");
+const profileImageForm = document.querySelector("#edit-profile-img-modal");
 // form inputs
 const profileNameInput = editForm.querySelector("#profile-name-input");
 const profileDescriptionInput = editForm.querySelector(
   "#profile-description-input"
 );
 
-const userInfo = new UserInfo("#profile-name", "#profile-des");
+const userInfo = new UserInfo(
+  "#profile-name",
+  "#profile-des",
+  "#profile-image"
+);
 
 api
   .getUserinfo()
   .then((data) => {
-    const { name, about } = data;
+    const { name, about, avatar } = data;
     userInfo.setUserInfo(name, about);
+    userInfo.setUserProfileImage(avatar);
   })
   .catch((error) => {
     console.error("Error fetching data:", error);
@@ -92,10 +98,13 @@ function handleDeleteIcon(cardId) {
 }
 
 function handleProfileImgFormSubmit(data) {
+  console.log(data.link);
   api
-    .updateProfileImg(data)
+    .updateProfileImg(data.link)
     .then((res) => {
       console.log(res);
+      userInfo.setUserProfileImage(data.link);
+      profileImagePopup.close();
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -162,12 +171,12 @@ profileImagePopup.setEventListeners();
 const editFormValidator = new FormValidator(config, editForm);
 const addFormValidator = new FormValidator(config, addForm);
 // const deleteFormValidator = new FormValidator(config,  form here );
-// const profileImageFormValidator = new FormValidator(config,  form here );
+const profileImageFormValidator = new FormValidator(config, profileImageForm);
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
 // deleteCardPopup.enableValidation();
-// profileImagePopup.enableValidation();
+profileImageFormValidator.enableValidation();
 
 // event handlers
 profileEditBtn.addEventListener("click", () => {
@@ -183,5 +192,5 @@ profileAddBtn.addEventListener("click", () => {
 });
 profileImgEditBtn.addEventListener("click", () => {
   profileImagePopup.open();
-  // profileImagePopup.enableValidation();
+  profileImageFormValidator.toggleButtonState();
 });

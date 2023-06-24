@@ -20,9 +20,10 @@
         <section class="profile page__section">
           <div class="profile__image-overlay">
             <img
-              src="<%=require('./images/jacques-cousteau.png')%>"
-              alt="avatar"
+              src=""
+              alt="profile image"
               class="profile__image"
+              id="profile-image"
             />
             <button class="profile__edit-image" id="edit-avatar-btn"></button>
           </div>
@@ -163,12 +164,12 @@
             id="add-url-input"
             type="url"
             placeholder="Image URL"
-            name="imageUrl"
+            name="link"
             required
           />
           <span
-            class="modal__error"
-            id="profile-description-input-error"
+            class="modal__error modal__error_visible"
+            id="add-url-input-error"
           ></span>
           <button class="modal__save" type="submit">Save</button>
         </form>
