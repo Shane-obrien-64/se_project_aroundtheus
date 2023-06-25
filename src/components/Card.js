@@ -1,13 +1,27 @@
 export default class Card {
-  constructor(data, cardSelector, handleCardClick, handleCardDelete) {
+  constructor(
+    data,
+    cardSelector,
+    userId,
+    handleCardClick,
+    handleCardLike,
+    handleCardDelete
+  ) {
     this._name = data.name;
     this._link = data.link;
     this._id = data._id;
-    this.likeCount = data.likes;
+    this._ownerId = data.owner._id;
+    this.likes = data.likes;
     // #8 add card like counter
     this._cardSelector = cardSelector;
+    this._userId = userId;
     this._handleCardClick = handleCardClick;
+    this.handleCardLike = handleCardLike;
     this._handleCardDelete = handleCardDelete;
+  }
+
+  checkIfLiked() {
+    //
   }
 
   _setEventListeners() {
@@ -16,10 +30,19 @@ export default class Card {
       ".card__delete-button"
     );
 
-    this._likeButton.addEventListener("click", () => this._handleLikeIcon());
+    if (this._userId !== this._ownerId) {
+      this._deleteButton.remove();
+    }
+
+    this._likeButton.addEventListener("click", () =>
+      this._handleCardLike(this._id)
+    );
     // #6 only add delete button if its the users card
+    // this._deleteButton.addEventListener("click", () =>
+    //   this._handleCardDelete(this._id)
+    // );
     this._deleteButton.addEventListener("click", () =>
-      this._handleCardDelete(this._id)
+      this._handleCardDelete(this._id, this._cardElement)
     );
     // this._deleteButton.addEventListener("click", () =>
     //   this._handleDeleteCard()
@@ -34,10 +57,10 @@ export default class Card {
     // #7 PUT and DELETE request with api
   }
 
-  _handleDeleteCard() {
-    this._cardElement.remove();
-    this._cardElement = null;
-  }
+  // _handleDeleteCard() {
+  //   this._cardElement.remove();
+  //   this._cardElement = null;
+  // }
 
   _getElement() {
     return document
@@ -51,12 +74,11 @@ export default class Card {
     this._cardImage = this._cardElement.querySelector(".card__image");
     this._cardTitle = this._cardElement.querySelector(".card__description");
     this.cardLikeCount = this._cardElement.querySelector(".card__like-counter");
-
     this._setEventListeners();
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._cardTitle.textContent = this._name;
-    this.cardLikeCount.textContent = this.likeCount.length;
+    this.cardLikeCount.textContent = this.likes.length;
     return this._cardElement;
   }
 }

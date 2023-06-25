@@ -2,6 +2,7 @@ import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import PopupDeleteCard from "../components/PopupDeleteCard.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 import { config } from "../utils/constants.js";
@@ -36,11 +37,13 @@ const userInfo = new UserInfo(
   "#profile-des",
   "#profile-image"
 );
-
+let userID;
 api
   .getUserinfo()
   .then((data) => {
-    const { name, about, avatar } = data;
+    const { name, about, avatar, _id } = data;
+    userID = _id;
+    console.log(userID);
     userInfo.setUserInfo(name, about);
     userInfo.setUserProfileImage(avatar);
   })
@@ -69,32 +72,36 @@ function handleProfileFormSubmit(data) {
 function handleCardFormSubmit(data) {
   api.postCard(data).then((res) => {
     console.log(res);
+    const card = createCard(res);
+    cardSection.prependItem(card);
+    profileAddPopup.close();
   });
-  const name = data.name;
-  const link = data.link;
-  const card = createCard({ name, link });
-  cardSection.prependItem(card);
-  profileAddPopup.close();
+  // const name = data.name;
+  // const link = data.link;
+
   // #10 btn text content changes while saving
 }
 
-function handleDeleteCardSubmit(cardId) {
-  console.log(cardId + " submited");
-  deleteCardPopup.close();
-  // this one works!! v
-  // api
-  //   .deleteCard(cardId)
-  //   .then((res) => {
-  //     console.log(res);
-  //     cardSection.remove;
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //   });
-}
+// function handleDeleteCardSubmit(cardId) {
+//   console.log(cardId + " submited");
+//   // this one works!! v
+// }
 
-function handleDeleteIcon(cardId) {
+function handleDeleteIcon(cardId, card) {
+  console.log(cardId);
   deleteCardPopup.open(cardId);
+  deleteCardPopup.setSubmitAction(() => {
+    api
+      .deleteCard(cardId)
+      .then((res) => {
+        console.log(res);
+        deleteCardPopup.close();
+        cardSection.removeItem(card);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  });
 }
 
 function handleProfileImgFormSubmit(data) {
@@ -115,11 +122,22 @@ function handleCardClick(name, link) {
   previewImagePopup.open(name, link);
 }
 
+function handleCardLike(cardId) {
+  console.log(cardId);
+  // if (card is liked) {
+  //   removeLikeFunction(cardId);
+  // } else {
+  //   addlikeFunction(cardId);
+  // }
+}
+
 function createCard(cardData) {
   const newCard = new Card(
     cardData,
     "#card-template",
+    userID,
     handleCardClick,
+    handleCardLike,
     handleDeleteIcon
   );
   return newCard.getView();
@@ -128,6 +146,9 @@ function createCard(cardData) {
 // render initial cards
 let cardSection;
 api.getInitialCards().then((result) => {
+  console.log(result);
+
+  // console.log(result[2].owner._id);
   cardSection = new Section(
     {
       items: result,
@@ -151,10 +172,11 @@ const profileAddPopup = new PopupWithForm(
   "#profile-add-modal",
   handleCardFormSubmit
 );
-const deleteCardPopup = new PopupWithForm(
-  "#delete-image-modal",
-  handleDeleteCardSubmit
-);
+const deleteCardPopup = new PopupDeleteCard("#delete-image-modal");
+// const deleteCardPopup = new PopupDeleteCard(
+//   "#delete-image-modal",
+//   handleDeleteCardSubmit
+// );
 const profileImagePopup = new PopupWithForm(
   "#edit-profile-img-modal",
   handleProfileImgFormSubmit
@@ -167,15 +189,12 @@ deleteCardPopup.setEventListeners();
 profileImagePopup.setEventListeners();
 
 // form validation
-
 const editFormValidator = new FormValidator(config, editForm);
 const addFormValidator = new FormValidator(config, addForm);
-// const deleteFormValidator = new FormValidator(config,  form here );
 const profileImageFormValidator = new FormValidator(config, profileImageForm);
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
-// deleteCardPopup.enableValidation();
 profileImageFormValidator.enableValidation();
 
 // event handlers
