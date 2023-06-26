@@ -1,9 +1,3 @@
-// Project 9.Token:
-// cd56466a-c69a-4082-86d8-efb553341f31
-// Group ID: group-12
-
-// const { get } = require("core-js/core/dict");
-
 export default class Api {
   constructor(options) {
     this.baseUrl = options.baseUrl;
@@ -141,7 +135,7 @@ export default class Api {
   }
 
   addLike(cardId) {
-    return fetch(this.baseUrl + "/cards/" + cardId, {
+    return fetch(this.baseUrl + "/cards/likes/" + cardId, {
       method: "PUT",
       headers: {
         authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
@@ -156,11 +150,12 @@ export default class Api {
       })
       .catch((err) => {
         console.error(err);
+        console.log(this.baseUrl + "/cards/" + cardId);
       });
   }
 
   deleteLike(cardId) {
-    return fetch(this.baseUrl + "/cards/" + cardId, {
+    return fetch(this.baseUrl + "/cards/likes/" + cardId, {
       method: "DELETE",
       headers: {
         authorization: "cd56466a-c69a-4082-86d8-efb553341f31",

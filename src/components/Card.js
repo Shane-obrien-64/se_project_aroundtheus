@@ -12,20 +12,30 @@ export default class Card {
     this._id = data._id;
     this._ownerId = data.owner._id;
     this.likes = data.likes;
-    // #8 add card like counter
-    this._cardSelector = cardSelector;
     this._userId = userId;
+    this.isLiked = this.checkIfLiked();
+
+    this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this.handleCardLike = handleCardLike;
     this._handleCardDelete = handleCardDelete;
   }
 
   checkIfLiked() {
-    //
+    const liked = this.likes.some((card) => card._id === this._userId);
+    return liked;
+  }
+
+  _updateLikeIcon() {
+    this._likeButton.classList.toggle("card__like-button_active");
+    return (this.isLiked = !this.isLiked);
   }
 
   _setEventListeners() {
     this._likeButton = this._cardElement.querySelector(".card__like-button");
+    if (this.isLiked) {
+      this._likeButton.classList.add("card__like-button_active");
+    }
     this._deleteButton = this._cardElement.querySelector(
       ".card__delete-button"
     );
@@ -33,34 +43,17 @@ export default class Card {
     if (this._userId !== this._ownerId) {
       this._deleteButton.remove();
     }
-
-    this._likeButton.addEventListener("click", () =>
-      this._handleCardLike(this._id)
-    );
-    // #6 only add delete button if its the users card
-    // this._deleteButton.addEventListener("click", () =>
-    //   this._handleCardDelete(this._id)
-    // );
+    this._likeButton.addEventListener("click", () => {
+      this.handleCardLike(this._id, this.isLiked, this.cardLikeCount);
+      this._updateLikeIcon();
+    });
     this._deleteButton.addEventListener("click", () =>
       this._handleCardDelete(this._id, this._cardElement)
     );
-    // this._deleteButton.addEventListener("click", () =>
-    //   this._handleDeleteCard()
-    // );
     this._cardImage.addEventListener("click", () =>
       this._handleCardClick(this._name, this._link)
     );
   }
-
-  _handleLikeIcon() {
-    this._likeButton.classList.toggle("card__like-button_active");
-    // #7 PUT and DELETE request with api
-  }
-
-  // _handleDeleteCard() {
-  //   this._cardElement.remove();
-  //   this._cardElement = null;
-  // }
 
   _getElement() {
     return document

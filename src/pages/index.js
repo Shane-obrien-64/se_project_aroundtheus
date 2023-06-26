@@ -43,7 +43,6 @@ api
   .then((data) => {
     const { name, about, avatar, _id } = data;
     userID = _id;
-    console.log(userID);
     userInfo.setUserInfo(name, about);
     userInfo.setUserProfileImage(avatar);
   })
@@ -53,50 +52,39 @@ api
 
 // functions
 function handleProfileFormSubmit(data) {
-  const name = data.name;
-  const about = data.about;
-
+  const { name, about } = data;
   api
     .updateProfile(name, about)
-    .then((res) => {
+    .then(() => {
+      profileEditPopup.editSubmitBtn();
+    })
+    .then(() => {
       userInfo.setUserInfo(name, about);
-      // console.log(name, about);
-      console.log(res);
+      profileEditPopup.close();
+      profileEditPopup.resetSubmitBtn();
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
-  profileEditPopup.close();
 }
 
 function handleCardFormSubmit(data) {
-  api.postCard(data).then((res) => {
-    console.log(res);
-    const card = createCard(res);
+  api.postCard(data).then((data) => {
+    const card = createCard(data);
     cardSection.prependItem(card);
     profileAddPopup.close();
+    profileAddPopup.resetSubmitBtn();
   });
-  // const name = data.name;
-  // const link = data.link;
-
-  // #10 btn text content changes while saving
 }
 
-// function handleDeleteCardSubmit(cardId) {
-//   console.log(cardId + " submited");
-//   // this one works!! v
-// }
-
 function handleDeleteIcon(cardId, card) {
-  console.log(cardId);
   deleteCardPopup.open(cardId);
   deleteCardPopup.setSubmitAction(() => {
     api
       .deleteCard(cardId)
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         deleteCardPopup.close();
-        cardSection.removeItem(card);
+        card.remove();
       })
       .catch((err) => {
         console.error(err);
@@ -105,11 +93,9 @@ function handleDeleteIcon(cardId, card) {
 }
 
 function handleProfileImgFormSubmit(data) {
-  console.log(data.link);
   api
     .updateProfileImg(data.link)
-    .then((res) => {
-      console.log(res);
+    .then(() => {
       userInfo.setUserProfileImage(data.link);
       profileImagePopup.close();
     })
@@ -121,14 +107,34 @@ function handleProfileImgFormSubmit(data) {
 function handleCardClick(name, link) {
   previewImagePopup.open(name, link);
 }
+function addLike(cardId, likeCounter) {
+  api
+    .addLike(cardId)
+    .then((res) => {
+      likeCounter.textContent = res.likes.length;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+}
 
-function handleCardLike(cardId) {
-  console.log(cardId);
-  // if (card is liked) {
-  //   removeLikeFunction(cardId);
-  // } else {
-  //   addlikeFunction(cardId);
-  // }
+function deleteLike(cardId, likeCounter) {
+  api
+    .deleteLike(cardId)
+    .then((res) => {
+      likeCounter.textContent = res.likes.length;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+}
+
+function handleCardLike(cardId, isLiked, likeCounter) {
+  if (isLiked) {
+    deleteLike(cardId, likeCounter);
+  } else {
+    addLike(cardId, likeCounter);
+  }
 }
 
 function createCard(cardData) {
@@ -146,9 +152,6 @@ function createCard(cardData) {
 // render initial cards
 let cardSection;
 api.getInitialCards().then((result) => {
-  console.log(result);
-
-  // console.log(result[2].owner._id);
   cardSection = new Section(
     {
       items: result,
@@ -173,10 +176,6 @@ const profileAddPopup = new PopupWithForm(
   handleCardFormSubmit
 );
 const deleteCardPopup = new PopupDeleteCard("#delete-image-modal");
-// const deleteCardPopup = new PopupDeleteCard(
-//   "#delete-image-modal",
-//   handleDeleteCardSubmit
-// );
 const profileImagePopup = new PopupWithForm(
   "#edit-profile-img-modal",
   handleProfileImgFormSubmit
