@@ -47,11 +47,6 @@
   margin: 25px auto 25px 0;
 }
 
-.card__like_container {
-  display: flex;
-  flex-direction: column;
-}
-
 .card__like-button {
   background: transparent url(../images/like-icon.svg) center no-repeat;
   width: 21px;
@@ -59,13 +54,6 @@
   border-style: none;
   transition: opacity 0.7s ease-out;
   cursor: pointer;
-}
-
-.card__like-counter {
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 16px;
-  margin: 3px auto auto;
 }
 
 .card__like-button_active {
