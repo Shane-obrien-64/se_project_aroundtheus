@@ -22,20 +22,20 @@ export default class Card {
   }
 
   checkIfLiked() {
-    const liked = this.likes.some((card) => card._id === this._userId);
+    const liked = this.likes.some((card) => card._id == this._userId);
     return liked;
   }
-
   _updateLikeIcon() {
-    this._likeButton.classList.toggle("card__like-button_active");
     return (this.isLiked = !this.isLiked);
   }
 
   _setEventListeners() {
     this._likeButton = this._cardElement.querySelector(".card__like-button");
-    if (this.isLiked) {
+    if (this._isLiked) {
       this._likeButton.classList.add("card__like-button_active");
+      console.log("isLiked");
     }
+
     this._deleteButton = this._cardElement.querySelector(
       ".card__delete-button"
     );
@@ -44,7 +44,12 @@ export default class Card {
       this._deleteButton.remove();
     }
     this._likeButton.addEventListener("click", () => {
-      this.handleCardLike(this._id, this.isLiked, this.cardLikeCount);
+      this.handleCardLike(
+        this._id,
+        this.isLiked,
+        this.cardLikeCount,
+        this._likeButton
+      );
       this._updateLikeIcon();
     });
     this._deleteButton.addEventListener("click", () =>

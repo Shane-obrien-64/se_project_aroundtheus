@@ -10,7 +10,7 @@ import Api from "../components/Api.js";
 import "./index.css";
 import { data } from "autoprefixer";
 
-export const api = new Api({
+const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/group-12",
   headers: {
     authorization: "cd56466a-c69a-4082-86d8-efb553341f31",
@@ -37,44 +37,43 @@ const userInfo = new UserInfo(
   "#profile-des",
   "#profile-image"
 );
-let userID;
-api
-  .getUserinfo()
-  .then((data) => {
-    const { name, about, avatar, _id } = data;
-    userID = _id;
-    userInfo.setUserInfo(name, about);
-    userInfo.setUserProfileImage(avatar);
-  })
-  .catch((error) => {
-    console.error("Error fetching data:", error);
-  });
+
+let userId;
+let cardSection;
 
 // functions
 function handleProfileFormSubmit(data) {
   const { name, about } = data;
   api
     .updateProfile(name, about)
-    .then(() => {
-      profileEditPopup.editSubmitBtn();
-    })
+    .then(profileEditPopup.editSubmitBtn())
     .then(() => {
       userInfo.setUserInfo(name, about);
-      profileEditPopup.close();
-      profileEditPopup.resetSubmitBtn();
     })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      profileEditPopup.resetSubmitBtn();
+      profileEditPopup.close();
     });
 }
 
 function handleCardFormSubmit(data) {
-  api.postCard(data).then((data) => {
-    const card = createCard(data);
-    cardSection.prependItem(card);
-    profileAddPopup.close();
-    profileAddPopup.resetSubmitBtn();
-  });
+  api
+    .postCard(data)
+    .then(profileAddPopup.editSubmitBtn())
+    .then((data) => {
+      const card = createCard(data);
+      cardSection.prependItem(card);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      profileAddPopup.resetSubmitBtn();
+      profileAddPopup.close();
+    });
 }
 
 function handleDeleteIcon(cardId, card) {
@@ -83,11 +82,13 @@ function handleDeleteIcon(cardId, card) {
     api
       .deleteCard(cardId)
       .then(() => {
-        deleteCardPopup.close();
         card.remove();
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        deleteCardPopup.close();
       });
   });
 }
@@ -95,45 +96,56 @@ function handleDeleteIcon(cardId, card) {
 function handleProfileImgFormSubmit(data) {
   api
     .updateProfileImg(data.link)
+    .then(profileImagePopup.editSubmitBtn())
     .then(() => {
       userInfo.setUserProfileImage(data.link);
-      profileImagePopup.close();
     })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      profileImagePopup.resetSubmitBtn();
+      profileImagePopup.close();
     });
 }
 
 function handleCardClick(name, link) {
   previewImagePopup.open(name, link);
 }
-function addLike(cardId, likeCounter) {
+function addLike(cardId, likeCounter, likeBtn) {
   api
     .addLike(cardId)
     .then((res) => {
       likeCounter.textContent = res.likes.length;
+      console.log(likeBtn);
     })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      likeBtn.classList.add("card__like-button_active");
     });
 }
 
-function deleteLike(cardId, likeCounter) {
+function deleteLike(cardId, likeCounter, likeBtn) {
   api
     .deleteLike(cardId)
     .then((res) => {
       likeCounter.textContent = res.likes.length;
     })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      likeBtn.classList.remove("card__like-button_active");
     });
 }
 
-function handleCardLike(cardId, isLiked, likeCounter) {
+function handleCardLike(cardId, isLiked, likeCounter, likeBtn) {
   if (isLiked) {
-    deleteLike(cardId, likeCounter);
+    deleteLike(cardId, likeCounter, likeBtn);
   } else {
-    addLike(cardId, likeCounter);
+    addLike(cardId, likeCounter, likeBtn);
   }
 }
 
@@ -141,7 +153,7 @@ function createCard(cardData) {
   const newCard = new Card(
     cardData,
     "#card-template",
-    userID,
+    userId,
     handleCardClick,
     handleCardLike,
     handleDeleteIcon
@@ -149,21 +161,30 @@ function createCard(cardData) {
   return newCard.getView();
 }
 
-// render initial cards
-let cardSection;
-api.getInitialCards().then((result) => {
-  cardSection = new Section(
-    {
-      items: result,
-      renderer: (item) => {
-        const card = createCard(item);
-        cardSection.appendItem(card);
+// render initial data
+api
+  .getInitialData()
+  .then((res) => {
+    const { name, about, avatar, _id } = res[1];
+    userId = _id;
+    userInfo.setUserInfo(name, about);
+    userInfo.setUserProfileImage(avatar);
+
+    cardSection = new Section(
+      {
+        items: res[0],
+        renderer: (item) => {
+          const card = createCard(item);
+          cardSection.appendItem(card);
+        },
       },
-    },
-    "#card-list"
-  );
-  cardSection.renderItems();
-});
+      "#card-list"
+    );
+    cardSection.renderItems();
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 // popups
 const previewImagePopup = new PopupWithImage("#preview-image-modal");
