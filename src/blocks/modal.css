@@ -116,20 +116,6 @@
   border-radius: 2px;
 }
 
-.modal__confim-btn {
-  cursor: pointer;
-  background-color: #000;
-  border: none;
-  color: #fff;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 21px;
-  margin: 8px 0 0 0;
-  width: 100%;
-  height: 50px;
-  border-radius: 2px;
-}
-
 .modal__save_disabled {
   cursor: default;
   background-color: #fff;

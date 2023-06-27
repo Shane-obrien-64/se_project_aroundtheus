@@ -18,23 +18,19 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <div class="profile__image-overlay">
-            <img
-              src=""
-              alt="profile image"
-              class="profile__image"
-              id="profile-image"
-            />
-            <button class="profile__edit-image" id="edit-avatar-btn"></button>
-          </div>
+          <img
+            src="<%=require('./images/jacques-cousteau.png')%>"
+            alt="avatar"
+            class="profile__image"
+          />
           <div class="profile__info">
-            <h1 class="profile__name" id="profile-name"></h1>
+            <h1 class="profile__name" id="profile-name">Jacques Cousteau</h1>
             <button
               class="profile__edit-button profile__button"
               id="profile-edit-btn"
               type="button"
             ></button>
-            <p class="profile__description" id="profile-des"></p>
+            <p class="profile__description" id="profile-des">Explorer</p>
           </div>
           <button
             class="profile__add-button profile__button"
@@ -52,7 +48,7 @@
         <p class="footer__copyright">© 2022 Around The U.S.</p>
       </footer>
     </div>
-    <!-- edit profile modal -->
+    <!-- edit modal -->
     <div class="modal" id="profile-edit-modal">
       <div class="modal__container">
         <button
@@ -77,8 +73,8 @@
             class="modal__input"
             id="profile-description-input"
             type="text"
-            placeholder="About"
-            name="about"
+            placeholder="Description"
+            name="description"
             maxlength="200"
             minlength="2"
             required
@@ -91,7 +87,7 @@
         </form>
       </div>
     </div>
-    <!-- add card modal -->
+    <!-- add modal -->
     <div class="modal" id="profile-add-modal">
       <div class="modal__container">
         <button
@@ -108,7 +104,7 @@
             placeholder="Title"
             maxlength="30"
             minlength="1"
-            name="name"
+            name="title"
             required
           />
           <span class="modal__error" id="add-title-input-error"></span>
@@ -117,7 +113,7 @@
             id="add-url-input"
             type="url"
             placeholder="Image URL"
-            name="link"
+            name="imageUrl"
             required
           />
           <span class="modal__error" id="add-url-input-error"></span>
@@ -135,46 +131,6 @@
         <h2 class="modal__image-description"></h2>
       </div>
     </div>
-    <!-- delete modal -->
-    <div class="modal" id="delete-image-modal">
-      <div class="modal__container">
-        <button
-          class="modal__close"
-          id="delete-modal-close-btn"
-          type="button"
-        ></button>
-        <h2 class="modal__heading">Are you sure?</h2>
-        <form class="modal__form form">
-          <button class="modal__confim-btn" id="confim-delete-btn">Yes</button>
-        </form>
-      </div>
-    </div>
-    <!-- edit profile image modal -->
-    <div class="modal" id="edit-profile-img-modal">
-      <div class="modal__container">
-        <button
-          class="modal__close"
-          id="delete-modal-close-btn"
-          type="button"
-        ></button>
-        <h2 class="modal__heading">Change profile picture</h2>
-        <form class="modal__form form">
-          <input
-            class="modal__input"
-            id="add-url-input"
-            type="url"
-            placeholder="Image URL"
-            name="link"
-            required
-          />
-          <span
-            class="modal__error modal__error_visible"
-            id="add-url-input-error"
-          ></span>
-          <button class="modal__save" type="submit">Save</button>
-        </form>
-      </div>
-    </div>
 
     <template id="card-template">
       <li class="card">
@@ -182,10 +138,7 @@
         <button class="card__delete-button" type="button"></button>
         <div class="card__content">
           <h2 class="card__description"></h2>
-          <div class="card__like_container">
-            <button class="card__like-button" type="button"></button>
-            <p class="card__like-counter">1</p>
-          </div>
+          <button class="card__like-button" type="button"></button>
         </div>
       </li>
     </template>
