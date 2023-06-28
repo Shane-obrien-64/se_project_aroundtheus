@@ -13,7 +13,6 @@ export default class Card {
     this._ownerId = data.owner._id;
     this.likes = data.likes;
     this._userId = userId;
-    this.isLiked = this.checkIfLiked();
 
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
@@ -31,9 +30,8 @@ export default class Card {
 
   _setEventListeners() {
     this._likeButton = this._cardElement.querySelector(".card__like-button");
-    if (this._isLiked) {
+    if (this.checkIfLiked()) {
       this._likeButton.classList.add("card__like-button_active");
-      console.log("isLiked");
     }
 
     this._deleteButton = this._cardElement.querySelector(
