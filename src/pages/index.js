@@ -77,7 +77,6 @@ function handleCardFormSubmit(data) {
     })
     .finally(() => {
       profileAddPopup.resetSubmitBtn();
-      profileAddPopup.close();
     });
 }
 
