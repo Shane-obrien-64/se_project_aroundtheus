@@ -44,28 +44,33 @@ let cardSection;
 // functions
 function handleProfileFormSubmit(data) {
   const { name, about } = data;
+  profileEditPopup.editSubmitBtn();
   api
     .updateProfile(name, about)
-    .then(profileEditPopup.editSubmitBtn())
     .then(() => {
       userInfo.setUserInfo(name, about);
+    })
+    .then(() => {
+      profileEditPopup.close();
     })
     .catch((err) => {
       console.error(err);
     })
     .finally(() => {
       profileEditPopup.resetSubmitBtn();
-      profileEditPopup.close();
     });
 }
 
 function handleCardFormSubmit(data) {
+  profileAddPopup.editSubmitBtn();
   api
     .postCard(data)
-    .then(profileAddPopup.editSubmitBtn())
     .then((data) => {
       const card = createCard(data);
       cardSection.prependItem(card);
+    })
+    .then(() => {
+      profileAddPopup.close();
     })
     .catch((err) => {
       console.error(err);
@@ -84,68 +89,72 @@ function handleDeleteIcon(cardId, card) {
       .then(() => {
         card.remove();
       })
+      .then(() => {
+        deleteCardPopup.close();
+      })
       .catch((err) => {
         console.error(err);
-      })
-      .finally(() => {
-        deleteCardPopup.close();
       });
   });
 }
 
 function handleProfileImgFormSubmit(data) {
+  profileImagePopup.editSubmitBtn();
   api
     .updateProfileImg(data.link)
-    .then(profileImagePopup.editSubmitBtn())
     .then(() => {
       userInfo.setUserProfileImage(data.link);
+    })
+    .then(() => {
+      profileImagePopup.close();
     })
     .catch((err) => {
       console.error(err);
     })
     .finally(() => {
       profileImagePopup.resetSubmitBtn();
-      profileImagePopup.close();
     });
 }
 
 function handleCardClick(name, link) {
   previewImagePopup.open(name, link);
 }
-function addLike(cardId, likeCounter, likeBtn) {
+
+function addLike(card) {
   api
-    .addLike(cardId)
+    .addLike(card._id)
     .then((res) => {
-      likeCounter.textContent = res.likes.length;
-      console.log(likeBtn);
+      card.cardLikeCount.textContent = res.likes.length;
+    })
+    .then(() => {
+      card.likeCard();
+      card.updateLikeIcon();
     })
     .catch((err) => {
       console.error(err);
-    })
-    .finally(() => {
-      likeBtn.classList.add("card__like-button_active");
     });
 }
 
-function deleteLike(cardId, likeCounter, likeBtn) {
+function deleteLike(card) {
   api
-    .deleteLike(cardId)
+    .deleteLike(card._id)
     .then((res) => {
-      likeCounter.textContent = res.likes.length;
+      card.cardLikeCount.textContent = res.likes.length;
+    })
+    .then(() => {
+      card.unlikeCard();
+      card.updateLikeIcon();
     })
     .catch((err) => {
       console.error(err);
-    })
-    .finally(() => {
-      likeBtn.classList.remove("card__like-button_active");
     });
 }
 
-function handleCardLike(cardId, isLiked, likeCounter, likeBtn) {
-  if (isLiked) {
-    deleteLike(cardId, likeCounter, likeBtn);
+function handleCardLike(card) {
+  if (card.isLiked) {
+    deleteLike(card);
   } else {
-    addLike(cardId, likeCounter, likeBtn);
+    addLike(card);
   }
 }
 
