@@ -13,7 +13,6 @@ export default class Card {
     this._ownerId = data.owner._id;
     this.likes = data.likes;
     this._userId = userId;
-    this.isLiked = this.checkIfLiked();
 
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
@@ -22,20 +21,27 @@ export default class Card {
   }
 
   checkIfLiked() {
-    const liked = this.likes.some((card) => card._id === this._userId);
+    const liked = this.likes.some((card) => card._id == this._userId);
     return liked;
   }
-
-  _updateLikeIcon() {
-    this._likeButton.classList.toggle("card__like-button_active");
+  updateLikeIcon() {
     return (this.isLiked = !this.isLiked);
+  }
+
+  likeCard() {
+    this._likeButton.classList.add("card__like-button_active");
+  }
+
+  unlikeCard() {
+    this._likeButton.classList.remove("card__like-button_active");
   }
 
   _setEventListeners() {
     this._likeButton = this._cardElement.querySelector(".card__like-button");
-    if (this.isLiked) {
-      this._likeButton.classList.add("card__like-button_active");
+    if (this.checkIfLiked()) {
+      this.likeCard();
     }
+
     this._deleteButton = this._cardElement.querySelector(
       ".card__delete-button"
     );
@@ -44,9 +50,10 @@ export default class Card {
       this._deleteButton.remove();
     }
     this._likeButton.addEventListener("click", () => {
-      this.handleCardLike(this._id, this.isLiked, this.cardLikeCount);
-      this._updateLikeIcon();
+      this.handleCardLike(this);
+      this.checkIfLiked();
     });
+
     this._deleteButton.addEventListener("click", () =>
       this._handleCardDelete(this._id, this._cardElement)
     );
@@ -68,6 +75,7 @@ export default class Card {
     this._cardTitle = this._cardElement.querySelector(".card__description");
     this.cardLikeCount = this._cardElement.querySelector(".card__like-counter");
     this._setEventListeners();
+    this.isLiked = this.checkIfLiked();
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._cardTitle.textContent = this._name;
