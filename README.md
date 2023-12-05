@@ -15,3 +15,9 @@ development skills such as
 ## link
 
 https://shane-obrien-64.github.io/se_project_aroundtheus/
+
+## Future Plans
+
+- Create Backend
+- Frontend Authentication
+- Host Publicly
